@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>员工管理</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	var name="emp";
+	var columns=[[
+	  		    {field:'uuid',title:'编号',width:100},
+	  		    {field:'username',title:'登陆名',width:100},
+	  		    {field:'pwd',title:'登陆密码',width:100},
+	  		    {field:'name',title:'真实姓名',width:100},
+	  		    {field:'gender',title:'性别',width:100},
+	  		    {field:'email',title:'邮件地址',width:100},
+	  		    {field:'tele',title:'联系电话',width:100},
+	  		    {field:'address',title:'联系地址',width:100},
+	  		    {field:'birthday',title:'出生年月日',width:100},
+	  		    {field:'depuuid',title:'部门编号',width:100},
+
+			    {field:'-',title:'操作',width:200,formatter:function(value,row,index)
+			    	{
+			    		return "<a href='#' onclick='edit("+row.uuid+")'>修改</a> <a href='#' onclick='dele("+row.uuid+")'>删除</a>";
+			    	}}		    
+			          ]];
+
+</script>
+</head>
+<body>
+<div class="easyui-panel">
+<form id="searchForm">
+	登陆名：<input name="t1.username" >
+	登陆密码：<input name="t1.pwd" >
+	真实姓名：<input name="t1.name" >
+	性别：<input name="t1.gender" >
+	邮件地址：<input name="t1.email" >
+	联系电话：<input name="t1.tele" >
+	联系地址：<input name="t1.address" >
+	出生年月日：<input name="t1.birthday" >
+	部门编号：<input name="t1.depuuid" >
+
+	<button type="button" id="btnSearch">查询</button>
+</form>
+</div>
+<table id="grid"></table>
+<div id="editWindow" class="easyui-window" title="员工编辑" 
+	style="width: 300px;height: 200px" data-options="closed:true">
+	<form id="editForm">
+	<input name="t.uuid" type="hidden"> 
+
+		<table>
+			<tr>
+				<td>登陆名</td><td><input name="t.username"> </td>
+			</tr>
+			<tr>
+				<td>登陆密码</td><td><input name="t.pwd"> </td>
+			</tr>
+			<tr>
+				<td>真实姓名</td><td><input name="t.name"> </td>
+			</tr>
+			<tr>
+				<td>性别</td><td><input name="t.gender"> </td>
+			</tr>
+			<tr>
+				<td>邮件地址</td><td><input name="t.email"> </td>
+			</tr>
+			<tr>
+				<td>联系电话</td><td><input name="t.tele"> </td>
+			</tr>
+			<tr>
+				<td>联系地址</td><td><input name="t.address"> </td>
+			</tr>
+			<tr>
+				<td>出生年月日</td><td><input name="t.birthday"> </td>
+			</tr>
+			<tr>
+				<td>部门编号</td><td><input name="t.depuuid"> </td>
+			</tr>
+
+		</table>	
+		<button id="btnSave" type="button">保存</button>
+	</form>
+</div>
+
+</body>
+</html>
