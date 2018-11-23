@@ -13,8 +13,9 @@ import com.opensymphony.xwork2.ActionContext;
 
 import cn.itcast.erp.biz.IEmpBiz;
 import cn.itcast.erp.entity.Emp;
+import cn.itcast.erp.exception.ERPException;
 
-public class LoginAction {
+public class LoginAction{
 	public IEmpBiz empBiz;
 	
 	public void setEmpBiz(IEmpBiz empBiz) {
@@ -25,7 +26,7 @@ public class LoginAction {
 	public String username;
 	public String pwd;
 	
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -45,7 +46,9 @@ public class LoginAction {
 		this.pwd = pwd;
 	}
 
-
+	/*
+	 * 登录验证
+	 */
 	public void checkUser() {
 		try {			
 			Emp user = empBiz.findByUsernameAndPwd(username, pwd);
@@ -60,7 +63,9 @@ public class LoginAction {
 			ajaxReturn(false, "登录失败");
 		}
 	}
-	
+	/**
+	 * 显示登录名
+	 */
 	public void showName() {
 		Emp loginUser = (Emp) ActionContext.getContext().getSession().get("loginUser");
 		if (null != loginUser) {
@@ -70,10 +75,14 @@ public class LoginAction {
 		}
 	}
 	
+	/**
+	 * 登出
+	 */
 	public void logOut() {
 		ActionContext.getContext().getSession().remove("loginUser");
 	}
 	
+
 	public void ajaxReturn(boolean success,String message){
 		
 		Map map=new HashMap();
@@ -85,7 +94,7 @@ public class LoginAction {
 	public void write(String jsonString){
 
 		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setContentType("text/html;charset=utf8");
+		response.setContentType("text/html;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");		
 		try {
 			response.getWriter().print(jsonString);

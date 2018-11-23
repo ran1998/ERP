@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 
 import com.alibaba.fastjson.JSON;
+import com.opensymphony.xwork2.ActionContext;
 
 import cn.itcast.erp.biz.IBaseBiz;
+import cn.itcast.erp.entity.Emp;
 
 /**
  * 基本Action
@@ -193,6 +195,9 @@ public class BaseAction<T> {
 		write(mapJson(jsonString, "t"));
 	}
 	
+	public Emp getLoginUser() {
+		return (Emp) ActionContext.getContext().getSession().get("loginUser");
+	}
 	/**
 	 * 自定添加前缀
 	 * @param jsonString
@@ -208,6 +213,8 @@ public class BaseAction<T> {
 		}
 		return  JSON.toJSONString(newmap);		
 	}
+	
+
 	
 	
 }
