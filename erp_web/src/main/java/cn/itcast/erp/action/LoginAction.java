@@ -13,7 +13,6 @@ import com.opensymphony.xwork2.ActionContext;
 
 import cn.itcast.erp.biz.IEmpBiz;
 import cn.itcast.erp.entity.Emp;
-import cn.itcast.erp.exception.ERPException;
 
 public class LoginAction{
 	public IEmpBiz empBiz;

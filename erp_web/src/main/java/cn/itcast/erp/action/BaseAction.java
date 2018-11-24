@@ -102,6 +102,7 @@ public class BaseAction<T> {
 	public void write(String jsonString){
 
 		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("UTF-8");		
 		try {
 			response.getWriter().print(jsonString);
@@ -126,11 +127,11 @@ public class BaseAction<T> {
 		
 		try {
 			baseBiz.add(t);
-			write(ajaxReturn(true, "增加成功"));
+			ajaxReturn(true, "增加成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			write(ajaxReturn(true, "增加失败"));
+			ajaxReturn(true, "增加失败");
 		}
 	}
 		
@@ -141,11 +142,11 @@ public class BaseAction<T> {
 		
 		try {
 			baseBiz.update(t);
-			write(ajaxReturn(true, "修改成功"));
+			ajaxReturn(true, "修改成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			write(ajaxReturn(true, "修改失败"));
+			ajaxReturn(true, "修改失败");
 		}
 	}
 	
@@ -156,12 +157,12 @@ public class BaseAction<T> {
 	 * @param message
 	 * @return
 	 */
-	public String ajaxReturn(boolean success,String message){
+	public void ajaxReturn(boolean success,String message){
 		
 		Map map=new HashMap();
 		map.put("success", success);
 		map.put("message", message);
-		return JSON.toJSONString(map);		
+		write(JSON.toJSONString(map));		
 	}
 	
 	private Long id;		
@@ -179,10 +180,10 @@ public class BaseAction<T> {
 		
 		try {
 			baseBiz.delete(id);
-			write(ajaxReturn(true, "删除成功"));
+			ajaxReturn(true, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			write(ajaxReturn(true, "删除失败"));
+			ajaxReturn(true, "删除失败");
 		}
 	}
 	

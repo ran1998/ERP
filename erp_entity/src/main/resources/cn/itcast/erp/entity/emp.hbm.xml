@@ -8,7 +8,7 @@
         </id>
 
         <property name="username" /> 
-        <property name="pwd" /> 
+        <property name="pwd" update="false"/> 
         <property name="name" /> 
         <property name="gender" /> 
         <property name="email" /> 

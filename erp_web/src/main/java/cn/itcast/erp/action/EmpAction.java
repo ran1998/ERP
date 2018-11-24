@@ -49,13 +49,26 @@ public class EmpAction extends BaseAction<Emp> {
 		}
 		try {			
 			empBiz.updatePwd(loginUser.getUuid(), oldPwd, newPwd);
-			write(ajaxReturn(true, "修改密码成功"));
+			ajaxReturn(true, "修改密码成功");
 		} catch (ERPException e) {
 			e.printStackTrace();
-			write(ajaxReturn(false, e.getMessage()));
+			ajaxReturn(false, e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			write(ajaxReturn(false, "修改失败"));
+			ajaxReturn(false, "修改失败");
+		}
+	}
+	
+	/**
+	 * 重置密码
+	 */
+	public void updatePwd_reset() {
+		try {			
+			this.empBiz.updatePwd_reset(getId(), newPwd);
+			ajaxReturn(true, "重置密码成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxReturn(false, "重置密码失败");
 		}
 	}
 }

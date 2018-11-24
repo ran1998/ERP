@@ -8,5 +8,9 @@ import cn.itcast.erp.entity.Emp;
 public interface IEmpBiz extends IBaseBiz<Emp>{
 	
 	public Emp findByUsernameAndPwd(String username, String pwd);
+
+	public void updatePwd(Long uuid, String oldPwd, String newPwd);
+	
+	public void updatePwd_reset(Long uuid, String newPwd);
 }
 

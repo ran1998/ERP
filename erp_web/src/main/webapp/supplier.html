@@ -10,6 +10,7 @@
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
 <script type="text/javascript">
 	var name="supplier";
 	var columns=[[
@@ -19,13 +20,17 @@
 	  		    {field:'contact',title:'联系人',width:100},
 	  		    {field:'tele',title:'联系电话',width:100},
 	  		    {field:'email',title:'邮件地址',width:100},
-	  		    {field:'type',title:'1：供应商 2：客户',width:100},
 
 			    {field:'-',title:'操作',width:200,formatter:function(value,row,index)
 			    	{
 			    		return "<a href='#' onclick='edit("+row.uuid+")'>修改</a> <a href='#' onclick='dele("+row.uuid+")'>删除</a>";
 			    	}}		    
 			          ]];
+	if (Request['type'] == 1) {
+		document.title = '供应商管理';
+	} else if (Request['type'] == 2) {
+		document.title = '客户管理';
+	}
 
 </script>
 </head>
@@ -37,7 +42,6 @@
 	联系人：<input name="t1.contact" >
 	联系电话：<input name="t1.tele" >
 	邮件地址：<input name="t1.email" >
-	1：供应商 2：客户：<input name="t1.type" >
 
 	<button type="button" id="btnSearch">查询</button>
 </form>
@@ -64,9 +68,7 @@
 			<tr>
 				<td>邮件地址</td><td><input name="t.email"> </td>
 			</tr>
-			<tr>
-				<td>1：供应商 2：客户</td><td><input name="t.type"> </td>
-			</tr>
+			
 
 		</table>	
 		<button id="btnSave" type="button">保存</button>
