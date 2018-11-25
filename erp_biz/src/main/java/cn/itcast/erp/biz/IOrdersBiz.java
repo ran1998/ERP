@@ -7,6 +7,8 @@ import cn.itcast.erp.entity.Orders;
  */
 public interface IOrdersBiz extends IBaseBiz<Orders>{
 	
+	void doCheck(Long uuid, Long empUuid);
 	
+	void doStart(Long uuid, Long empUuid);
 }
 
