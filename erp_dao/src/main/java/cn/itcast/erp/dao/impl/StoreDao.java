@@ -26,6 +26,9 @@ public class StoreDao extends BaseDao<Store> implements IStoreDao {
 			{
 				dc.add(Restrictions.like("name", store1.getName(), MatchMode.ANYWHERE));			
 			}
+			if (store1.getEmpuuid() != null) {
+				dc.add(Restrictions.eq("empuuid", store1.getEmpuuid()));
+			}
 		
 		}		
 		return dc;

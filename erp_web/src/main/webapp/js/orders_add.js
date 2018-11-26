@@ -16,7 +16,7 @@ $(function () {
 		]]
 	})
 	
-	$("#grid").datagrid({
+	$("#ordersgrid").datagrid({
 		singSelect: true,
 		showFooter: true,
 		columns: [[
@@ -33,7 +33,14 @@ $(function () {
 						$(goodsUuidEditor.target).val(goods.uuid);
 						// 获取商品价格的编辑器
 						var priceEditor = getEditor('price');
-						$(priceEditor.target).val(goods.inprice);
+						if (Request['type'] * 1 == 1) {							
+							// 设置为进货价格
+							$(priceEditor.target).val(goods.inprice);
+						}
+						if (Request['type'] * 1 == 2) {							
+							// 设置为销售价格
+							$(priceEditor.target).val(goods.outprice);
+						}
 						
 						// 自动选中数量输入框
 						var numEditor = getEditor('num');
@@ -59,10 +66,10 @@ $(function () {
 		]],
 		onClickRow: function (rowIndex, rowData) {
 			// 关闭当前行的编辑
-			$("#grid").datagrid("endEdit", existEditIndex);
+			$("#ordersgrid").datagrid("endEdit", existEditIndex);
 			existEditIndex = rowIndex;
 			// 开启点击时的行编辑
-			$("#grid").datagrid("beginEdit", existEditIndex);
+			$("#ordersgrid").datagrid("beginEdit", existEditIndex);
 		},
 		toolbar: [
 			{
@@ -71,14 +78,14 @@ $(function () {
 				handler: function () {
 					// 如果存在编辑行就关闭掉
 					if (existEditIndex > -1) {
-						$("#grid").datagrid("endEdit", existEditIndex);
+						$("#ordersgrid").datagrid("endEdit", existEditIndex);
 					}
 					// 追加一行
-					$("#grid").datagrid('appendRow', {num:0,money:0});
+					$("#ordersgrid").datagrid('appendRow', {num:0,money:0});
 					// 获取最后一行的索引
-					existEditIndex = $("#grid").datagrid("getRows").length - 1;
+					existEditIndex = $("#ordersgrid").datagrid("getRows").length - 1;
 					// 最后一行开启编辑
-					$("#grid").datagrid('beginEdit', existEditIndex);
+					$("#ordersgrid").datagrid('beginEdit', existEditIndex);
 				}
 			},
 			{
@@ -88,7 +95,7 @@ $(function () {
 					if (existEditIndex > -1) {
 						console.log(1);
 						// 关闭编辑行
-						$('#grid').datagrid('endEdit', existEditIndex);
+						$('#ordersgrid').datagrid('endEdit', existEditIndex);
 						var formdata = $('#orderForm').serializeJSON();
 						
 						if(formdata['t.supplieruuid'] == '') {
@@ -96,13 +103,13 @@ $(function () {
 							return;
 						}
 						
-						var rows = $('#grid').datagrid('getRows');
+						var rows = $('#ordersgrid').datagrid('getRows');
 						formdata.json = JSON.stringify(rows);
 						
 						// 提交到后台
 						$.ajax({
 							type: 'post',
-							url: 'orders_add.action',
+							url: 'orders_add.action?t.type='+Request['type'],
 							dataType: 'json',
 							data: formdata,
 							success: function (res) {
@@ -110,7 +117,11 @@ $(function () {
 									// 清空供应商输入框
 									$('#supplier').combogrid('clear');
 									// 重新加载数据
-									$('#grid').datagrid('loadData',{total:0,rows:[],footer:[{num: '合计', money: 0}]});
+									$('#ordersgrid').datagrid('loadData',{total:0,rows:[],footer:[{num: '合计', money: 0}]});
+									// 关闭订单窗口
+									$('#addOrdersDlg').dialog('close');
+									// 刷新表格
+									$('#grid').datagrid('reload');
 								}
 							}
 						})
@@ -120,13 +131,13 @@ $(function () {
 		]
 	})
 	// 加载页脚
-	$('#grid').datagrid('reloadFooter', [{num: '合计', money: 0}]);
+	$('#ordersgrid').datagrid('reloadFooter', [{num: '合计', money: 0}]);
 })
 	/**
 	 * 获取编辑器
 	 */
 	function getEditor(field) {
-		return $("#grid").datagrid("getEditor", {index: existEditIndex, field: field});
+		return $("#ordersgrid").datagrid("getEditor", {index: existEditIndex, field: field});
 	}
 	/**
 	 * 计算金额
@@ -144,7 +155,7 @@ $(function () {
 		$(moneyEditor.target).val($money);
 		
 		// 更新编辑行表格数据，防止计算合计时无法计算编辑行的金额
-		$('#grid').datagrid('getRows')[existEditIndex]['money'] = $money;
+		$('#ordersgrid').datagrid('getRows')[existEditIndex]['money'] = $money;
 	}
 	/**
 	 * 自动计算金额绑定事件
@@ -168,12 +179,12 @@ $(function () {
 	 */
 	function deleteRow(rowIndex) {
 		// 关闭编辑行
-		$('#grid').datagrid('endEdit', rowIndex);
+		$('#ordersgrid').datagrid('endEdit', rowIndex);
 		// 删除行
-		$('#grid').datagrid('deleteRow', rowIndex);
+		$('#ordersgrid').datagrid('deleteRow', rowIndex);
 		// 重新加载数据
-		var data = $('#grid').datagrid('getData');
-		$('#grid').datagrid('loadData', data);
+		var data = $('#ordersgrid').datagrid('getData');
+		$('#ordersgrid').datagrid('loadData', data);
 		sum();
 	}
 	/**
@@ -182,11 +193,11 @@ $(function () {
 	 */
 	function sum() {
 		var totalPrice = 0;
-		var rows = $('#grid').datagrid('getRows');
+		var rows = $('#ordersgrid').datagrid('getRows');
 		// 循环累加
 		$.each(rows, function (i, r) {
 			totalPrice += parseFloat(r.money);
 		})
 		// 加载页脚
-		$('#grid').datagrid('reloadFooter', [{num: '合计', money: totalPrice.toFixed(2)}]);
+		$('#ordersgrid').datagrid('reloadFooter', [{num: '合计', money: totalPrice.toFixed(2)}]);
 	}

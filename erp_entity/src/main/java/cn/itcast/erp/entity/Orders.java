@@ -22,6 +22,12 @@ public class Orders {
 	/**销售订单*/
 	public static final String TYPE_OUT = "2";
 	
+	/**未出库*/
+	public static final String STATE_NOT_OUT = "0";
+	/**出库*/
+	public static final String STATE_OUT = "1";
+
+	
 	private Long uuid;//编号
 	private java.util.Date createtime;//生成日期
 	private java.util.Date checktime;//审核日期

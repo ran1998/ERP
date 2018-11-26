@@ -41,7 +41,7 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 		// 设置添加时状态为未审核
 		orders.setState(Orders.STATE_CREATE);
 		// 设置类型为采购
-		orders.setType(Orders.TYPE_IN);
+		// orders.setType(Orders.TYPE_IN);
 		// 设置创建时间
 		orders.setCreatetime(new Date());
 		

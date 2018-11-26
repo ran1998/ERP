@@ -43,8 +43,8 @@
 	<!-- 订单明细 -->
 	<bean id="orderdetailBiz" class="cn.itcast.erp.biz.impl.OrderdetailBiz">
 		<property name="orderdetailDao" ref="orderdetailDao"></property>
-		<property name="storeDetailDao" ref="storeDetailDao"></property>
-		<property name="storeOperDao" ref="storeOperDao"></property>		
+		<property name="storeDetailDao" ref="storedetailDao"></property>
+		<property name="storeOperDao" ref="storeoperDao"></property>		
 	</bean>
 	<!-- 订单 -->
 	<bean id="ordersBiz" class="cn.itcast.erp.biz.impl.OrdersBiz">

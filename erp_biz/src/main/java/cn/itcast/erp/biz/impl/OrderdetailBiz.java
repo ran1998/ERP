@@ -64,6 +64,7 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 		if (list != null && list.size() > 0) {
 			list.get(0).setNum(list.get(0).getNum() + orderdetail.getNum());
 		} else {
+			storeDetail.setNum(orderdetail.getNum());
 			storeDetailDao.add(storeDetail);
 		}
 		
@@ -97,6 +98,68 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 			orders.setEnder(empUuid);
 			// 设置操作时间
 			orders.setEndtime(orderdetail.getEndtime());
+		}
+	}
+	/**
+	 * 出库
+	 * @param empuuid
+	 * @param uuid
+	 * @param storeuuid
+	 */
+	public void doOutStore(Long empuuid, Long uuid, Long storeuuid) {
+		// 获取订单明细
+		Orderdetail orderdetail = orderdetailDao.get(uuid);
+		if (!Orderdetail.STATE_NOT_OUT.equals(orderdetail.getState())) {
+			throw new ERPException("该明细已经出库了哟");
+		}
+		
+		// 更新订单明细
+		orderdetail.setEnder(empuuid);
+		orderdetail.setEndtime(new Date());
+		orderdetail.setState(Orderdetail.STATE_OUT);
+		orderdetail.setStoreuuid(storeuuid);
+		
+		// 查询库存
+		Storedetail storedetail = new Storedetail();
+		storedetail.setGoodsuuid(orderdetail.getGoodsuuid());
+		storedetail.setStoreuuid(storeuuid);
+		
+		List<Storedetail> list = storeDetailDao.getList(storedetail, null, null);
+		// 库存数量
+		long num = -1l;
+		if (null != list && list.size() > 0) {
+			storedetail = list.get(0);
+			num = storedetail.getNum().longValue() - orderdetail.getNum();
+		}
+		if (num > 0) {
+			// 库存充足
+			storedetail.setNum(num);
+		} else {
+			// 库存不足
+			throw new ERPException("库存不足");
+		}
+		
+		// 添加库存变更操作
+		Storeoper storeoper = new Storeoper();
+		storeoper.setEmpuuid(empuuid);
+		storeoper.setGoodsuuid(orderdetail.getGoodsuuid());
+		storeoper.setNum(orderdetail.getNum());
+		storeoper.setOpertime(orderdetail.getEndtime());
+		storeoper.setStoreuuid(storeuuid);
+		storeoper.setType("2");
+		storeOperDao.add(storeoper);
+		
+		// 查询订单下是否所有明细都已出库
+		Orderdetail orderdetail2 = new Orderdetail();
+		Orders order = orderdetail.getOrders();
+		orderdetail2.setOrders(order);
+		orderdetail2.setState(Orderdetail.STATE_NOT_OUT);
+		long count = orderdetailDao.getCount(orderdetail2, null, null);
+		if (count == 0) {
+			// 都已出库
+			order.setState(Orders.STATE_OUT);
+			order.setEnder(empuuid);
+			order.setEndtime(orderdetail.getEndtime());
 		}
 	}
 	

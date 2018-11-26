@@ -11,6 +11,11 @@ public class Orderdetail {
 	/**入库*/
 	public static final String STATE_IN = "1";
 	
+	/**未出库*/
+	public static final String STATE_NOT_OUT = "0";
+	/**出库*/
+	public static final String STATE_OUT = "1";
+	
 	private Long uuid;//编号
 	private Long goodsuuid;//商品编号
 	private String goodsname;//商品名称

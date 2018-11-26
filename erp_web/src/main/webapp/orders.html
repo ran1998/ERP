@@ -13,6 +13,7 @@
 <script type="text/javascript" src="ui/date.js"></script>
 <script type="text/javascript" src="js/request.js"></script>
 <script type="text/javascript" src="js/orders.js"></script>
+<script type="text/javascript" src="js/orders_add.js"></script>
 <script type="text/javascript">
 	
 
@@ -75,7 +76,40 @@
 	</table>
 	<table id="itemgrid"></table>
 </div>
-
+<!-- 入库窗口 -->
+<div id="itemDlg" style="padding:4px;">
+	<form id="itemForm">
+		<input type="hidden" name="id" id="itemuuid">
+		<table class="hovertable">
+			<tr>
+				<td width="30%" class="bg">商品编号</td>
+				<td width="70%" id="goodsuuid"></td>
+			</tr>
+			<tr>
+				<td class="bg">商品名称</td>
+				<td id="goodsname"></td>
+			</tr>
+			<tr>
+				<td class="bg">数量</td>
+				<td id="goodsnum"></td>
+			</tr>
+			<tr>
+				<td class="bg">仓库</td>
+				<td><input name="storeuuid" class="easyui-combobox" data-options="
+					url:'store_myList',valueField:'uuid',textField:'name'
+				"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<!-- 增加订单窗口 -->
+<div id="addOrdersDlg">
+	<form id="orderForm">
+	<span id="ordersupplier"></span><input id="supplier" name="t.supplieruuid" >
+	<div style="height:2px;"></div>
+	</form>
+	<table id="ordersgrid"></table>
+</div>
 <div id="editWindow" class="easyui-window" title="订单编辑" 
 	style="width: 300px;height: 200px" data-options="closed:true">
 	<form id="editForm">
