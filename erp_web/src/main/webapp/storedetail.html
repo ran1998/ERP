@@ -9,28 +9,14 @@
 <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
-<script type="text/javascript" src="js/crud.js"></script>
-<script type="text/javascript">
-	var name="storedetail";
-	var columns=[[
-	  		    {field:'uuid',title:'编号',width:100},
-	  		    {field:'storeuuid',title:'仓库编号',width:100},
-	  		    {field:'goodsuuid',title:'商品编号',width:100},
-	  		    {field:'num',title:'数量',width:100},
+<script type="text/javascript" src="js/storedetail.js"></script>
 
-			    {field:'-',title:'操作',width:200,formatter:function(value,row,index)
-			    	{
-			    		return "<a href='#' onclick='edit("+row.uuid+")'>修改</a> <a href='#' onclick='dele("+row.uuid+")'>删除</a>";
-			    	}}		    
-			          ]];
-
-</script>
 </head>
 <body>
 <div class="easyui-panel">
 <form id="searchForm">
-	仓库编号：<input name="t1.storeuuid" >
-	商品编号：<input name="t1.goodsuuid" >
+	仓库：<input name="t1.storeuuid" class="easyui-combobox" data-options="url:'store_list',valueFiels:'uuid',textField:'name'">
+	商品：<input name="t1.goodsuuid" class="easyui-combobox" data-options="url:'goods_list',valueFiels:'uuid',textField:'name'">
 	数量：<input name="t1.num" >
 
 	<button type="button" id="btnSearch">查询</button>

@@ -22,10 +22,10 @@ $(function () {
 	if (Request['oper'] == 'doStart') {
 		url += '?t1.type=1&t1.state=1';
 	}
-	// 入库业务,查询state=2的已确认的订单
+	/*// 入库业务,查询state=2的已确认的订单
 	if (Request['oper'] == 'doInStore') {
 		url += '?t1.type=1&t1.state=2';
-	}
+	}*/
 	// 出入库标题
 	var inoutTitle = "";
 	// 出入库按钮
@@ -100,7 +100,7 @@ $(function () {
 		singleSelect:true,
 		pagination:true,
 		fitColumns:true,
-		columns: getColumns,
+		columns: getColumns(),
 		   onDblClickRow: function(rowIndex, rowData) {
 			   $('#uuid').html(rowData.uuid);
 			   $('#suppliername').html(rowData.supplierName);
@@ -192,8 +192,8 @@ $(function () {
 		}
 		if (Request['type'] * 1 == 2) {			
 			switch (value * 1) {
-				case 0: return "未入库";
-				case 1: return "已入库";
+				case 0: return "未出库";
+				case 1: return "已出库";
 				default: return "";
 			}
 		}
@@ -304,6 +304,7 @@ $(function () {
 	 * 根据类型获取列
 	 */
 	function getColumns() {
+		console.log(123);
 		if (Request['type']*1 == 1) {
 			return [[
 	  		    {field:'uuid',title:'编号',width:100},

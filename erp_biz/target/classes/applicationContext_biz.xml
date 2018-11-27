@@ -75,6 +75,8 @@
 	<!-- 仓库库存 -->
 	<bean id="storedetailBiz" class="cn.itcast.erp.biz.impl.StoredetailBiz">
 		<property name="storedetailDao" ref="storedetailDao"></property>
+		<property name="goodsDao" ref="goodsDao"></property>
+		<property name="storeDao" ref="storeDao"></property>		
 	</bean>
 	<!-- 仓库操作记录 -->
 	<bean id="storeoperBiz" class="cn.itcast.erp.biz.impl.StoreoperBiz">
