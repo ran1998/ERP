@@ -15,6 +15,23 @@ public class SupplierAction extends BaseAction<Supplier> {
 		this.supplierBiz = supplierBiz;
 		setBaseBiz(supplierBiz);
 	}
+	/**romote传过来的参数*/
+	private String q;
+
+	public String getQ() {
+		return q;
+	}
+	public void setQ(String q) {
+		this.q = q;
+	}
 	
+	@Override
+	public void list() {
+		if (null == getT1()) {
+			this.setT1(new Supplier());
+		}
+		this.getT1().setName(q);
+		super.list();
+	}
 	
 }

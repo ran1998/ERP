@@ -9,35 +9,17 @@
 <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
-<script type="text/javascript" src="js/crud.js"></script>
-<script type="text/javascript">
-	var name="storeoper";
-	var columns=[[
-	  		    {field:'uuid',title:'编号',width:100},
-	  		    {field:'empuuid',title:'操作员工编号',width:100},
-	  		    {field:'opertime',title:'操作日期',width:100},
-	  		    {field:'storeuuid',title:'仓库编号',width:100},
-	  		    {field:'goodsuuid',title:'商品编号',width:100},
-	  		    {field:'num',title:'数量',width:100},
-	  		    {field:'type',title:'1：入库 2：出库',width:100},
-
-			    {field:'-',title:'操作',width:200,formatter:function(value,row,index)
-			    	{
-			    		return "<a href='#' onclick='edit("+row.uuid+")'>修改</a> <a href='#' onclick='dele("+row.uuid+")'>删除</a>";
-			    	}}		    
-			          ]];
-
-</script>
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript" src="js/storeoper.js"></script>
 </head>
 <body>
 <div class="easyui-panel">
 <form id="searchForm">
-	操作员工编号：<input name="t1.empuuid" >
-	操作日期：<input name="t1.opertime" >
-	仓库编号：<input name="t1.storeuuid" >
-	商品编号：<input name="t1.goodsuuid" >
-	数量：<input name="t1.num" >
-	1：入库 2：出库：<input name="t1.type" >
+	操作员工：<input name="t1.empuuid" class="easyui-combobox" data-options="url:'emp_list',textField:'name',valueField:'uuid'">
+	操作日期：<input name="t1.opertime" class="easyui-datebox">至<input name="t2.opertime" class="easyui-datebox"/>
+	仓库：<input name="t1.storeuuid" class="easyui-combobox" data-options="url:'store_list',textField:'name',valueField:'uuid'">
+	商品：<input name="t1.goodsuuid" class="easyui-combobox" data-options="url:'goods_list',textField:'name',valueField:'uuid'">
+	类型：<input name="t1.type" class="easyui-combobox" data-options="data:[{name:'全部',uuid:''},{name:'入库',uuid:1},{name:'出库',uuid:2}],textField:'name',valueField:'uuid'">
 
 	<button type="button" id="btnSearch">查询</button>
 </form>

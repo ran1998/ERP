@@ -57,7 +57,7 @@ public class StoreoperDao extends BaseDao<Storeoper> implements IStoreoperDao {
 				car.set(Calendar.MINUTE, 59);
 				car.set(Calendar.SECOND, 59);
 				car.set(Calendar.MILLISECOND, 59);
-				dc.add(Restrictions.ge("opertime", car.getTime()));
+				dc.add(Restrictions.le("opertime", car.getTime()));
 			}
 		}
 		return dc;

@@ -40,5 +40,7 @@
 		<action name="supplier_*" class="supplierAction" method="{1}"></action>
 		<!-- 登录 -->
 		<action name="login_*" class="loginAction" method="{1}"></action>
+		<!-- 统计 -->
+		<action name="report_*" class="reportAction" method="{1}"></action>
     </package>
 </struts>

@@ -13,7 +13,8 @@ $(function () {
 			{field: 'contact', title: '联系人', width: 100},
 			{field: 'tele', title: '联系地址', width: 100},
 			{field: 'email', title: '邮箱地址', width: 100},
-		]]
+		]],
+		mode: 'romote'
 	})
 	
 	$("#ordersgrid").datagrid({
