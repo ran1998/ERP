@@ -77,6 +77,10 @@
 		<property name="storedetailDao" ref="storedetailDao"></property>
 		<property name="goodsDao" ref="goodsDao"></property>
 		<property name="storeDao" ref="storeDao"></property>		
+		<property name="mailUtil" ref="mailUtil"></property>
+		<property name="to" value="邮件人地址"></property>
+		<property name="subject" value="库存预警时间"></property>
+		<property name="text" value="亲，有[count]个商品库存不足了，请登陆蓝天旗舰系统查看"></property>
 	</bean>
 	<!-- 仓库操作记录 -->
 	<bean id="storeoperBiz" class="cn.itcast.erp.biz.impl.StoreoperBiz">
@@ -89,9 +93,11 @@
 	<bean id="supplierBiz" class="cn.itcast.erp.biz.impl.SupplierBiz">
 		<property name="supplierDao" ref="supplierDao"></property>
 	</bean>
+	
 	<bean id="reportBiz" class="cn.itcast.erp.biz.impl.ReportBiz">
 		<property name="reportDao" ref="reportDao"></property>
 	</bean>
-	
+	<!-- mail -->
+	<bean id="mailUtil" class="cn.itcast.erp.util.MailUtil"></bean>
 </beans>
 	
