@@ -31,6 +31,7 @@ $(function () {
 	})
 	$("#btnSearch").bind('click', function () {
 		var submitData = $("#searchForm").serializeJSON();
+		console.log(submitData);
 		$("#grid").datagrid("load", submitData);
 	})
 })
