@@ -78,7 +78,7 @@
 		<property name="goodsDao" ref="goodsDao"></property>
 		<property name="storeDao" ref="storeDao"></property>		
 		<property name="mailUtil" ref="mailUtil"></property>
-		<property name="to" value="邮件人地址"></property>
+		<property name="to" value="1473817527@qq.com"></property>
 		<property name="subject" value="库存预警时间"></property>
 		<property name="text" value="亲，有[count]个商品库存不足了，请登陆蓝天旗舰系统查看"></property>
 	</bean>

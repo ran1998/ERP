@@ -106,6 +106,21 @@ public class StoredetailBiz extends BaseBiz<Storedetail> implements IStoredetail
 	private String text;
 	
 
+	public void setTo(String to) {
+		this.to = to;
+	}
+
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+
 	/**
 	 * 发送警告邮件
 	 */

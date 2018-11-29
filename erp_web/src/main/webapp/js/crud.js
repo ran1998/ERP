@@ -25,7 +25,16 @@ $(function(){
 				$('#editForm').form('clear');
 				method="add";
 			}
-		}]
+		},
+		{
+			text: '导出',
+			iconCls: 'icon-excel',
+			handler: function () {
+				var formdata = $("#searchForm").serializeJSON();
+				$.download(name+"_export"+listParam, formdata);
+			}
+		}
+		]
 
 	});
 	
