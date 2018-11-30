@@ -1,5 +1,10 @@
 package cn.itcast.erp.action;
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.alibaba.fastjson.JSON;
 
@@ -34,8 +39,7 @@ public class OrdersAction extends BaseAction<Orders> {
 	public void setJson(String json) {
 		this.json = json;
 	}
-
-
+	
 	/**
 	 * 保存订单
 	 */
@@ -114,5 +118,20 @@ public class OrdersAction extends BaseAction<Orders> {
 		this.getT1().setCreater(loginUser.getUuid());
 		super.listByPage();
 	}
- 	
+	
+	/**
+	 * 根据订单导出excel
+	 */
+ 	public void exportById() {
+ 		String filename = "orders_"+getId()+".xls";
+ 		HttpServletResponse response = ServletActionContext.getResponse();
+ 		try {
+ 			response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.getBytes(), "ISO-8859-1"));
+			ordersBiz.exportById(response.getOutputStream(), getId());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+ 	}
 }

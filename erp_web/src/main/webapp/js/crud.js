@@ -25,7 +25,7 @@ $(function(){
 				$('#editForm').form('clear');
 				method="add";
 			}
-		},
+		},'-',
 		{
 			text: '导出',
 			iconCls: 'icon-excel',
@@ -33,10 +33,50 @@ $(function(){
 				var formdata = $("#searchForm").serializeJSON();
 				$.download(name+"_export"+listParam, formdata);
 			}
+		},'-',
+		{
+			text: '导入',
+			iconCls: 'icon-excel',
+			handler: function () {
+				var importDlg = document.getElementById('importDlg');
+				if (importDlg) {
+					$(importDlg).dialog("open");
+				}
+			}
 		}
 		]
 
 	});
+	var importDlg = document.getElementById('importDlg');
+	if (importDlg) {
+		$("#importDlg").dialog({
+			title: '导入',
+			width: 330,
+			height: 106,
+			closed: true,
+			buttons: [{
+				text: '导入',
+				handler:function () {
+					$.ajax({
+						type: 'post',
+						url: name+'_doImport',
+						data: new FormData($('#importForm')[0]),
+						dataType: 'json',
+						processData: false,
+						contentType: false,
+						success: function (res) {
+							$.messager.alert('信息', res.message, 'info',function () {
+								if (res.success) {
+									$("#importDlg").close();
+									$("#grid").datagrid("reload");
+								}
+							})
+						}
+					})
+				}
+			}]
+		})
+	}
 	
 	//条件查询
 	$('#btnSearch').bind('click',function(){

@@ -1,4 +1,6 @@
 package cn.itcast.erp.biz;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import cn.itcast.erp.entity.Supplier;
@@ -10,5 +12,7 @@ import cn.itcast.erp.entity.Supplier;
 public interface ISupplierBiz extends IBaseBiz<Supplier>{
 	
 	public void export(OutputStream os, Supplier t1);
+	
+	public void doImport(InputStream is) throws IOException;
 }
 

@@ -1,5 +1,6 @@
 package cn.itcast.erp.biz.impl;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import cn.itcast.erp.biz.ISupplierBiz;
 import cn.itcast.erp.dao.ISupplierDao;
 import cn.itcast.erp.entity.Supplier;
+import cn.itcast.erp.exception.ERPException;
 /**
  * 供应商业务逻辑类
  * @author Administrator
@@ -75,6 +77,47 @@ public class SupplierBiz extends BaseBiz<Supplier> implements ISupplierBiz {
 				wk.close();
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void doImport(InputStream is) throws IOException {
+		HSSFWorkbook wk = null;
+		try {
+			wk = new HSSFWorkbook(is);
+			HSSFSheet sheetAt = wk.getSheetAt(0);
+			String type = "";
+			if ("供应商".equals(sheetAt.getSheetName())) {
+				type = Supplier.TYPE_SUPPLIER;
+			} else if ("客户".equals(sheetAt.getSheetName())) {
+				type = Supplier.TYPE_CUSTOMER;
+			} else {
+				throw new ERPException("工作名称不正确");
+			}
+			// 最后一行行号
+			int lastRowNum = sheetAt.getLastRowNum();
+			for (int i=1; i<=lastRowNum; i++) {
+				Supplier supplier2 = new Supplier();
+				supplier2.setName(sheetAt.getRow(i).getCell(0).getStringCellValue());
+				// 判断名称是否存在
+				List<Supplier> list = supplierDao.getList(null, supplier2, null);
+				if (list.size() > 0) {
+					supplier2 = list.get(0);
+				}
+				supplier2.setAddress(sheetAt.getRow(i).getCell(1).getStringCellValue());//地址
+				supplier2.setContact(sheetAt.getRow(i).getCell(2).getStringCellValue());
+				supplier2.setTele(sheetAt.getRow(i).getCell(3).getStringCellValue());
+				supplier2.setEmail(sheetAt.getRow(i).getCell(4).getStringCellValue());
+				if (list.size() == 0) {
+					supplier2.setType(type);
+					supplierDao.add(supplier2);
+				}
+				
+			}
+		} finally {
+			if (null != wk) {
+				wk.close();
 			}
 		}
 	}

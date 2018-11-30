@@ -30,6 +30,8 @@ $(function () {
 	var inoutTitle = "";
 	// 出入库按钮
 	var inoutBtn = "";
+	var toolbar = new Array();
+	
 	if (Request['oper'] == 'doInStore') {
 		url += '?t1.type=1&t1.state=2';
 		inoutTitle = "采购入库";
@@ -59,6 +61,15 @@ $(function () {
 			}]
 		})
 	}
+	// 添加导出的按钮
+	toolbar.push({
+		text: '导出',
+		iconCls: 'icon-excel',
+		handler: doExport
+	})
+	$('#ordersDlg').dialog({
+		toolbar: toolbar
+	})
 	//添加双击事件
 	if(Request['oper'] == 'doInStore' || Request['oper'] == 'doOutStore'){
 		$('#itemgrid').datagrid({
@@ -341,6 +352,10 @@ $(function () {
 	  		    {field:'waybillsn',title:'运单号',width:100}
 			]];
 		}
+	}
+	function doExport() {
+		console.log($("#uuid").val());
+		$.download('orders_exportById', {id: $("#uuid").html()});
 	}
 
 })

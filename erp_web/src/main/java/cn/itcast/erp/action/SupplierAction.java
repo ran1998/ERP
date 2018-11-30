@@ -1,4 +1,6 @@
 package cn.itcast.erp.action;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -8,6 +10,7 @@ import org.apache.struts2.ServletActionContext;
 
 import cn.itcast.erp.biz.ISupplierBiz;
 import cn.itcast.erp.entity.Supplier;
+import cn.itcast.erp.exception.ERPException;
 
 /**
  * 供应商Action 
@@ -63,6 +66,50 @@ public class SupplierAction extends BaseAction<Supplier> {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public File file;
+	public String fileFileName;
+	public String fileContentType;
+	
+	
+	
+	public File getFile() {
+		return file;
+	}
+	public void setFile(File file) {
+		this.file = file;
+	}
+	public String getFileFileName() {
+		return fileFileName;
+	}
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
+	}
+	public String getFileContentType() {
+		return fileContentType;
+	}
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
+	
+	public void doImport() {
+		// 文件类型判断
+		if (!"application/vnd.ms-excel".equals(fileContentType)) {
+			ajaxReturn(false, "上传文件必须为excel文件");
+			return;
+		}
+		try {
+			supplierBiz.doImport(new FileInputStream(file));
+			ajaxReturn(true, "上传文件成功");
+		} catch (IOException e) {
+			ajaxReturn(false, "上传文件失败");
+			e.printStackTrace();
+		} catch (ERPException e) {
+			ajaxReturn(false, e.getMessage());
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

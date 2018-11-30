@@ -15,7 +15,7 @@
         <!-- 账号 -->
         <property name="username" value="ran1998@zoho.com.cn"/>
         <!-- 账号的密码 -->
-        <property name="password" value="NcwXnqSB7XhD"/>
+        <property name="password" value="f3DMcGchKzrz"/>
         <!-- mail的配置 -->
         <property name="javaMailProperties">
             <props>
