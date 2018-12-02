@@ -13,6 +13,8 @@ import cn.itcast.erp.entity.Emp;
 import cn.itcast.erp.entity.Orderdetail;
 import cn.itcast.erp.entity.Orders;
 import cn.itcast.erp.exception.ERPException;
+import cn.itcast.redsun.bos.ws.Waybilldetail;
+import cn.itcast.redsun.bos.ws.impl.IWaybillWs;
 
 /**
  * 订单Action 
@@ -133,5 +135,31 @@ public class OrdersAction extends BaseAction<Orders> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+ 	}
+ 	private IWaybillWs waybillWs;
+ 	
+ 	public void setWaybillWs(IWaybillWs waybillWs) {
+		this.waybillWs = waybillWs;
+	}
+ 	
+ 	private Long waybillSn;
+ 	
+
+	public Long getWaybillSn() {
+		return waybillSn;
+	}
+
+
+	public void setWaybillSn(Long waybillSn) {
+		this.waybillSn = waybillSn;
+	}
+
+
+	/**
+ 	 * 查询运单详情
+ 	 */
+ 	public void waybilldetailList() {
+ 		List<Waybilldetail> waybilldetailList = waybillWs.waybilldetailList(waybillSn);
+ 		write(JSON.toJSONString(waybilldetailList));
  	}
 }

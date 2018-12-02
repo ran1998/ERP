@@ -4,7 +4,7 @@ $(function () {
 	$('#supplier').combogrid({
 		url: 'supplier_list.action?type=1',
 		panelWidth: 750,
-		idField: 'name',
+		idField: 'uuid',
 		textField: 'name',
 		columns: [[
 			{field: 'uuid', title: '编号', width: 60},
@@ -100,7 +100,6 @@ $(function () {
 				text: '提交',
 				handler: function () {
 					if (existEditIndex > -1) {
-						console.log(1);
 						// 关闭编辑行
 						$('#ordersgrid').datagrid('endEdit', existEditIndex);
 						var formdata = $('#orderForm').serializeJSON();
@@ -109,7 +108,6 @@ $(function () {
 							$.messager.alert('提示', '供应商不能为空', 'info');
 							return;
 						}
-						
 						var rows = $('#ordersgrid').datagrid('getRows');
 						formdata.json = JSON.stringify(rows);
 						

@@ -67,7 +67,7 @@ $(function(){
 						success: function (res) {
 							$.messager.alert('信息', res.message, 'info',function () {
 								if (res.success) {
-									$("#importDlg").close();
+									$("#importDlg").dialog("close");
 									$("#grid").datagrid("reload");
 								}
 							})

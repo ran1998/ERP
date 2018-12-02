@@ -5,13 +5,16 @@ import java.util.List;
 
 import cn.itcast.erp.biz.IOrderdetailBiz;
 import cn.itcast.erp.dao.IOrderdetailDao;
+import cn.itcast.erp.dao.ISupplierDao;
 import cn.itcast.erp.dao.impl.StoredetailDao;
 import cn.itcast.erp.dao.impl.StoreoperDao;
 import cn.itcast.erp.entity.Orderdetail;
 import cn.itcast.erp.entity.Orders;
 import cn.itcast.erp.entity.Storedetail;
 import cn.itcast.erp.entity.Storeoper;
+import cn.itcast.erp.entity.Supplier;
 import cn.itcast.erp.exception.ERPException;
+import cn.itcast.redsun.bos.ws.impl.IWaybillWs;
 /**
  * 订单明细业务逻辑类
  * @author Administrator
@@ -35,7 +38,16 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 	public void setStoreOperDao(StoreoperDao storeOperDao) {
 		this.storeOperDao = storeOperDao;
 	}
+	
+	private IWaybillWs waybillWs;
+	private ISupplierDao supplierDao;
 
+	public void setWaybillWs(IWaybillWs waybillWs) {
+		this.waybillWs = waybillWs;
+	}
+	public void setSupplierDao(ISupplierDao supplierDao) {
+		this.supplierDao = supplierDao;
+	}
 	/**
 	 * 入库
 	 */
@@ -160,6 +172,12 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 			order.setState(Orders.STATE_OUT);
 			order.setEnder(empuuid);
 			order.setEndtime(orderdetail.getEndtime());
+			// 获取客户信息
+			Supplier supplier = supplierDao.get(order.getSupplieruuid());
+			// 在线预约下单
+			Long waybillSn = waybillWs.addWaybill(1l, supplier.getAddress(), supplier.getName(), supplier.getContact(), "--");
+			// 设置运单编号
+			order.setWaybillsn(waybillSn);
 		}
 	}
 	

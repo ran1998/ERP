@@ -60,7 +60,7 @@ public class OrderdetailAction extends BaseAction<Orderdetail> {
 			ajaxReturn(false, e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			ajaxReturn(false, "入库失败");
+			ajaxReturn(false, "出库失败");
 		}
 	}
 }

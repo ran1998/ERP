@@ -8,6 +8,10 @@
         </id>
 
         <property name="name" /> 
- 
+ 		<!-- 角色的权限集合 -->
+ 		<bag name="menus" order-by="menuid" table="role_menu">
+ 			<key column="roleuuid"></key>
+ 			<many-to-many column="menuid" class="cn.itcast.erp.entity.Menu"></many-to-many>
+ 		</bag>
     </class>
 </hibernate-mapping>

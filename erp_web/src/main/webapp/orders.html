@@ -41,6 +41,12 @@
 </form>
 </div>
 <table id="grid"></table>
+<!-- 物流详情窗口 -->
+<div id="waybillDlg" style="padding:2px;" class="easyui-dialog" data-options="
+	height:300,width:500,modal:true,closed:true
+">
+<table id="waybillGrid"></table>
+</div>
 <!-- 订单详情窗口 -->
 <div id="ordersDlg" style="padding:2px;" class="easyui-dialog" data-options="
 	height:320,width:700,title:'订单详情',modal:true,closed:true
@@ -73,6 +79,16 @@
 			<td class="noBorderBottom" id="starttime"></td>
 			<td class="bg noBorderBottom">入库日期</td>
 			<td class="noBorderBottom" id="endtime"></td>
+		</tr>
+		<tr>
+			<td class="bg noBorderBottom">运单号</td>
+			<td class="noBorderBottom" id="waybillSn"></td>
+			<td class="bg noBorderBottom"></td>
+			<td class="noBorderBottom"></td>
+			<td class="bg noBorderBottom"></td>
+			<td class="noBorderBottom"></td>
+			<td class="bg noBorderBottom"></td>
+			<td class="noBorderBottom"></td>
 		</tr>
 	</table>
 	<table id="itemgrid"></table>

@@ -96,7 +96,6 @@ $(function () {
 						// 关闭编辑行
 						$('#grid').datagrid('endEdit', existEditIndex);
 						var formdata = $('#orderForm').serializeJSON();
-						
 						if(formdata['t.supplieruuid'] == '') {
 							$.messager.alert('提示', '供应商不能为空', 'info');
 							return;

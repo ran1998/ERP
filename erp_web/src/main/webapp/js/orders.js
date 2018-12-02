@@ -114,6 +114,8 @@ $(function () {
 		columns: getColumns(),
 		   onDblClickRow: function(rowIndex, rowData) {
 			   $('#uuid').html(rowData.uuid);
+			   // 显示运单号
+			   $('#waybillSn').html(rowData.waybillsn);
 			   $('#suppliername').html(rowData.supplierName);
 			   $('#creater').html(rowData.createrName);
 			   $('#checker').html(rowData.checkerName);
@@ -124,6 +126,33 @@ $(function () {
 			   $('#starttime').html(new Date(rowData.starttime).Format('yyyy-MM-dd'));
 			   $('#endtime').html(new Date(rowData.endtime).Format('yyyy-MM-dd'));
 			   $('#state').html(getState(rowData.state));
+			   
+			   // 销售订单已出库
+			   if (rowData.state * 1==1 && rowData.type * 1==2) {
+				   var options = $('#ordersDlg').dialog('options');
+				   var toolbar = options.toolbar;
+				   toolbar.push({
+					   text: '运单详情',
+					   iconCls: 'icon-search',
+					   handler: function () {
+						   $('#waybillDlg').dialog('open');
+						   $('#waybillGrid').datagrid({
+							   url: 'orders_waybilldetailList?waybillsn='+$('#waybillSn').html(),
+							   columns: [[
+								   {field: 'exedate', title: '执行日期', width: 100},
+								   {field: 'exetime', title: '执行时间', width: 100},
+								   {field: 'info', title: '执行信息', width: 100}
+							   ]],
+							   rownumbers: true
+						   })
+					   }
+				   })
+				   // 重新渲染工具栏
+				   $('#ordersDlg').dialog({
+					   toolbar: toolbar
+				   })
+			   }
+			   
 			   $('#ordersDlg').dialog("open");
 			   $('#itemgrid').datagrid('loadData', rowData.orderDetails);
 		   }

@@ -105,10 +105,13 @@ public class SupplierBiz extends BaseBiz<Supplier> implements ISupplierBiz {
 				if (list.size() > 0) {
 					supplier2 = list.get(0);
 				}
+				System.out.println(sheetAt.getRow(i).getCell(3).getStringCellValue());
 				supplier2.setAddress(sheetAt.getRow(i).getCell(1).getStringCellValue());//地址
 				supplier2.setContact(sheetAt.getRow(i).getCell(2).getStringCellValue());
 				supplier2.setTele(sheetAt.getRow(i).getCell(3).getStringCellValue());
 				supplier2.setEmail(sheetAt.getRow(i).getCell(4).getStringCellValue());
+				
+				
 				if (list.size() == 0) {
 					supplier2.setType(type);
 					supplierDao.add(supplier2);
