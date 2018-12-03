@@ -16,6 +16,10 @@
         <property name="address" /> 
         <property name="birthday" /> 
         <property name="depuuid" /> 
- 
+ 		
+ 		<bag name="roles" order-by="roleuuid" table="emp_role">
+ 			<key column="empuuid"></key>
+ 			<many-to-many class="cn.itcast.erp.entity.Role" column="roleuuid"></many-to-many>
+ 		</bag>
     </class>
 </hibernate-mapping>

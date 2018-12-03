@@ -1,4 +1,9 @@
 package cn.itcast.erp.entity;
+
+import java.util.List;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * 员工实体类
  * @author Administrator *
@@ -14,7 +19,17 @@ public class Emp {
 	private String address;//联系地址
 	private java.util.Date birthday;//出生年月日
 	private Long depuuid;//部门编号
+	
+	@JSONField(serialize=false)
+	private List<Role> roles;
+	
 
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 	public Long getUuid() {		
 		return uuid;
 	}

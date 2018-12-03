@@ -11,7 +11,7 @@
  		<!-- 角色的权限集合 -->
  		<bag name="menus" order-by="menuid" table="role_menu">
  			<key column="roleuuid"></key>
- 			<many-to-many column="menuid" class="cn.itcast.erp.entity.Menu"></many-to-many>
+ 			<many-to-many lazy="false" column="menuid" class="cn.itcast.erp.entity.Menu"></many-to-many>
  		</bag>
     </class>
 </hibernate-mapping>

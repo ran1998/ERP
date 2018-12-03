@@ -65,6 +65,7 @@
 	<!-- 角色 -->
 	<bean id="roleBiz" class="cn.itcast.erp.biz.impl.RoleBiz">
 		<property name="roleDao" ref="roleDao"></property>
+		<property name="menuDao" ref="menuDao"></property>
 	</bean>
 	<!-- 角色菜单 -->
 	<bean id="role_menuBiz" class="cn.itcast.erp.biz.impl.Role_menuBiz">
