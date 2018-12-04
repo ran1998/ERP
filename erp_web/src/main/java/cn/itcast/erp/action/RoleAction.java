@@ -25,4 +25,25 @@ public class RoleAction extends BaseAction<Role> {
 		List<Tree> readRoleMenus = roleBiz.readRoleMenus(getId());
 		write(JSON.toJSONString(readRoleMenus));
 	}
+	
+	private String checkedStr;
+	
+	
+	public String getCheckedStr() {
+		return checkedStr;
+	}
+
+	public void setCheckedStr(String checkedStr) {
+		this.checkedStr = checkedStr;
+	}
+
+	public void updateRoleMenus() {
+		try {			
+			roleBiz.updateRoleMenus(getId(), checkedStr);
+			ajaxReturn(true, "更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxReturn(false, "更新失败");
+		}
+	}
 }

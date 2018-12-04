@@ -59,6 +59,22 @@ public class RoleBiz extends BaseBiz<Role> implements IRoleBiz {
 		}
 		return treeList;
 	}
+	/**
+	 * 修改权限
+	 */
+	@Override
+	public void updateRoleMenus(Long uuid, String checkedStr) {
+		Role role = roleDao.get(uuid);
+		// 清空用户下所有权限
+		role.setMenus(new ArrayList<Menu>());
+		// 获取选中menuid的数组
+		String[] split = checkedStr.split(",");
+		Menu menu = null;
+		for (String m : split) {
+			menu = menuDao.get(m);
+			role.getMenus().add(menu);
+		}
+	}
 
 	
 }

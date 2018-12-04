@@ -11,5 +11,7 @@ import cn.itcast.erp.entity.Tree;
 public interface IRoleBiz extends IBaseBiz<Role>{
 	
 	List<Tree> readRoleMenus(Long uuid);
+	
+	void updateRoleMenus(Long uuid, String checkedStr);
 }
 

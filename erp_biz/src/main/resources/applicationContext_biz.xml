@@ -19,6 +19,7 @@
 	<!-- 员工 -->
 	<bean id="empBiz" class="cn.itcast.erp.biz.impl.EmpBiz">
 		<property name="empDao" ref="empDao"></property>
+		<property name="roleDao" ref="roleDao"></property>
 	</bean>
 	<!-- 员工角色 -->
 	<bean id="emp_roleBiz" class="cn.itcast.erp.biz.impl.Emp_roleBiz">

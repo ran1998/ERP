@@ -1,5 +1,7 @@
 package cn.itcast.erp.dao;
 
+import java.util.List;
+
 import cn.itcast.erp.entity.Menu;
 /**
  * 菜单数据访问接口
@@ -7,6 +9,6 @@ import cn.itcast.erp.entity.Menu;
  *
  */
 public interface IMenuDao extends IBaseDao<Menu>{
-	
+	List<Menu> getMenusByEmpuuid(Long uuid);
 	
 }

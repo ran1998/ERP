@@ -1,10 +1,16 @@
 package cn.itcast.erp.biz.impl;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.shiro.authc.credential.HashingPasswordService;
 import org.apache.shiro.crypto.hash.Md5Hash;
 
 import cn.itcast.erp.biz.IEmpBiz;
 import cn.itcast.erp.dao.IEmpDao;
+import cn.itcast.erp.dao.impl.RoleDao;
 import cn.itcast.erp.entity.Emp;
+import cn.itcast.erp.entity.Role;
+import cn.itcast.erp.entity.Tree;
 import cn.itcast.erp.exception.ERPException;
 /**
  * 员工业务逻辑类
@@ -56,6 +62,49 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		Emp emp = empDao.get(uuid);
 		if (null != emp) {
 			emp.setPwd(encrypt(newPwd, emp.getUsername()));
+		}
+	}
+	
+	private RoleDao roleDao;
+	
+
+	public void setRoleDao(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
+
+	/**
+	 * 获取用户角色
+	 */
+	@Override
+	public List<Tree> readEmpRoles(Long uuid) {
+		ArrayList<Tree> arrayList = new ArrayList<Tree>();
+		// 获取用户的所有角色
+		Emp emp = empDao.get(uuid);
+		List<Role> roles = emp.getRoles();
+		// 获取角色列表
+		List<Role> roleList = roleDao.getList(null, null, null);
+		Tree t1 = null;
+		for (Role role : roleList) {
+			t1 = new Tree();
+			t1.setId(String.valueOf(role.getUuid()));
+			t1.setText(role.getName());
+			if (roles.contains(role)) {
+				t1.setChecked(true);
+			}
+			arrayList.add(t1);
+		}
+		return arrayList;
+	}
+
+	@Override
+	public void updateEmpRoles(Long uuid, String checkedStr) {
+		Emp emp = empDao.get(uuid);
+		emp.setRoles(new ArrayList<Role>());
+		String[] split = checkedStr.split(",");
+		Role role = null;
+		for (String s : split) {
+			role = roleDao.get(Long.valueOf(s));
+			emp.getRoles().add(role);
 		}
 	}
 	

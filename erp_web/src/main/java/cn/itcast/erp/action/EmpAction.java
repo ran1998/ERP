@@ -1,6 +1,11 @@
 package cn.itcast.erp.action;
+import java.util.List;
+
+import com.alibaba.fastjson.JSON;
+
 import cn.itcast.erp.biz.IEmpBiz;
 import cn.itcast.erp.entity.Emp;
+import cn.itcast.erp.entity.Tree;
 import cn.itcast.erp.exception.ERPException;
 
 /**
@@ -69,6 +74,36 @@ public class EmpAction extends BaseAction<Emp> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			ajaxReturn(false, "重置密码失败");
+		}
+	}
+	
+	private String checkedStr;
+	
+	public String getCheckedStr() {
+		return checkedStr;
+	}
+
+
+	public void setCheckedStr(String checkedStr) {
+		this.checkedStr = checkedStr;
+	}
+
+
+	/**
+	 * 获取用户角色
+	 */
+	public void readEmpRoles() {
+		List<Tree> readEmpRoles = empBiz.readEmpRoles(getId());
+		write(JSON.toJSONString(readEmpRoles));
+	}
+	
+	public void updateEmpRoles() {
+		try {			
+			empBiz.updateEmpRoles(getId(), checkedStr);
+			ajaxReturn(true, "更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxReturn(false, "更新失败");
 		}
 	}
 }

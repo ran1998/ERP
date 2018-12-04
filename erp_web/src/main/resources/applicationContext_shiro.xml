@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 安全管理器，核心组件 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 认证相关配置 -->
+		<property name="loginUrl" value="/login.html" />
+		<!-- 授权相关配置 -->
+		<property name="unauthorizedUrl" value="/error.html" />
+		<!-- 过滤器访问规则 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/error.html = anon
+				/login_* = anon
+				/*.action = authc
+				/*.html = authc
+				/*=authc
+			</value>
+		</property>
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="erpRealm"></property>
+	</bean>
+	
+	<!-- 自定义的realm -->
+	<bean id="erpRealm" class="cn.itcast.erp.realm.ErpRealm">
+		<property name="empBiz" ref="empBiz"></property>
+	</bean>
+	
+
+
+</beans>
