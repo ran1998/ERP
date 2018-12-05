@@ -1,17 +1,21 @@
 package cn.itcast.erp.realm;
 
+import java.util.List;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import cn.itcast.erp.biz.IEmpBiz;
-import cn.itcast.erp.biz.impl.EmpBiz;
+import cn.itcast.erp.biz.IMenuBiz;
 import cn.itcast.erp.entity.Emp;
+import cn.itcast.erp.entity.Menu;
 
 public class ErpRealm extends AuthorizingRealm {
 
@@ -20,12 +24,24 @@ public class ErpRealm extends AuthorizingRealm {
 	public void setEmpBiz(IEmpBiz empBiz) {
 		this.empBiz = empBiz;
 	}
-	
+	private IMenuBiz menuBiz;
 
-	@Override
+	public void setMenuBiz(IMenuBiz menuBiz) {
+		this.menuBiz = menuBiz;
+	}
+
+	@Override 
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		// TODO Auto-generated method stub
-		return null;
+		// 得到当前登陆用户
+		Emp emp = (Emp) principals.getPrimaryPrincipal();
+		// 获取用户对应的权限
+		List<Menu> menus = menuBiz.getMenusByEmpuuid(emp.getUuid());
+		
+		SimpleAuthorizationInfo sai = new SimpleAuthorizationInfo();
+		for (Menu menu : menus) {
+			sai.addStringPermission(menu.getMenuname());
+		}
+		return sai;
 	}
 
 	/**
