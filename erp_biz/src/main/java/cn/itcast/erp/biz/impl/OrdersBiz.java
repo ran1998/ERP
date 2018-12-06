@@ -16,6 +16,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 
 import cn.itcast.erp.biz.IOrdersBiz;
 import cn.itcast.erp.dao.IOrdersDao;
@@ -51,6 +54,19 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 	}
 
 	public void add(Orders orders) {
+		// 获取主题
+		Subject subject = SecurityUtils.getSubject();
+		if (Orders.TYPE_IN.equals(orders.getType())) {
+			if (!subject.isPermitted("采购订单申请")) {
+				throw new ERPException("当前用户没有采购订单的权限");
+			}
+		} else if (Orders.TYPE_OUT.equals(orders.getType())) {
+			if (!subject.isPermitted("销售订单录入")) {				
+				throw new ERPException("当前用户没有销售订单的权限");
+			}
+		} else {
+			throw new ERPException("非法参数");
+		}
 		// 设置添加时状态为未审核
 		orders.setState(Orders.STATE_CREATE);
 		// 设置类型为采购
@@ -130,6 +146,7 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 		return supplierName;
 	}
 
+	@RequiresPermissions("采购订单审核")
 	@Override
 	public void doCheck(Long uuid, Long empUuid) {
 		Orders order = ordersDao.get(uuid);
@@ -144,6 +161,7 @@ public class OrdersBiz extends BaseBiz<Orders> implements IOrdersBiz {
 		order.setState(Orders.STATE_CHECK);
 	}
 
+	@RequiresPermissions("采购订单确认")
 	@Override
 	public void doStart(Long uuid, Long empUuid) {
 		Orders order = ordersDao.get(uuid);

@@ -15,7 +15,15 @@ public class Role {
 	@JSONField(serialize=false)
 	private List<Menu> menus;//权限菜单
 	
-
+	private List<Emp> empList;
+	
+	
+	public List<Emp> getEmpList() {
+		return empList;
+	}
+	public void setEmpList(List<Emp> empList) {
+		this.empList = empList;
+	}
 	public List<Menu> getMenus() {
 		return menus;
 	}

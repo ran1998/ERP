@@ -5,9 +5,11 @@ import java.util.List;
 import cn.itcast.erp.biz.IRoleBiz;
 import cn.itcast.erp.dao.IRoleDao;
 import cn.itcast.erp.dao.impl.MenuDao;
+import cn.itcast.erp.entity.Emp;
 import cn.itcast.erp.entity.Menu;
 import cn.itcast.erp.entity.Role;
 import cn.itcast.erp.entity.Tree;
+import redis.clients.jedis.Jedis;
 /**
  * 角色业务逻辑类
  * @author Administrator
@@ -16,7 +18,13 @@ import cn.itcast.erp.entity.Tree;
 public class RoleBiz extends BaseBiz<Role> implements IRoleBiz {
 
 	private IRoleDao roleDao;
+	private Jedis jedis;
 	
+	
+	
+	public void setJedis(Jedis jedis) {
+		this.jedis = jedis;
+	}
 	public void setRoleDao(IRoleDao roleDao) {
 		this.roleDao = roleDao;
 		setBaseDao(roleDao);
@@ -73,6 +81,15 @@ public class RoleBiz extends BaseBiz<Role> implements IRoleBiz {
 		for (String m : split) {
 			menu = menuDao.get(m);
 			role.getMenus().add(menu);
+		}
+		// 菜单清缓存
+		try {			
+			for (Emp emp : role.getEmpList()) {
+				jedis.del("menuList_"+emp.getUuid());
+				System.out.println("clear redis");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

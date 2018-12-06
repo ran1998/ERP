@@ -37,9 +37,9 @@
 				/supplier.html=perms["供应商管理","客户管理"]
 				/supplier_*=perms["供应商管理","客户管理"]
 				/role.html=perms["角色设置"]
-				/role_*=perms["角色设置","角色菜单设置"]
+				/role_*=perms["角色设置","角色权限"]
 				/emp.html=perms["员工"]
-				/emp_*=perms["用户角色设置","重置密码"]
+				/emp_*=perms["用户角色","重置密码"]
 				/goodstype.html=perms["商品类型"]
 				/goodstype_*=perms["商品类型"]
 				/goods.html=perms["商品"]
@@ -54,7 +54,9 @@
 				/report_*=perms["销售统计报表","销售趋势报表"]
 				/report_trend.html=perms["销售趋势报表"]
 				
-				
+				/*.html = authc
+				/*.action=authc
+				/*=authc
 			</value>
 		</property>
 	</bean>
@@ -67,6 +69,7 @@
 	<!-- 自定义的realm -->
 	<bean id="erpRealm" class="cn.itcast.erp.realm.ErpRealm">
 		<property name="empBiz" ref="empBiz"></property>
+		<property name="menuBiz" ref="menuBiz"></property>
 	</bean>
 
 	<bean id="erpAuthorizationFilter" class="cn.itcast.erp.filter.ErpAuthorizationFilter"></bean>

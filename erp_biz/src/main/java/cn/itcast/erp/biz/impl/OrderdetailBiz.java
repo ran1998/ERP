@@ -3,6 +3,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import cn.itcast.erp.biz.IOrderdetailBiz;
 import cn.itcast.erp.dao.IOrderdetailDao;
 import cn.itcast.erp.dao.ISupplierDao;
@@ -51,6 +53,7 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 	/**
 	 * 入库
 	 */
+	@RequiresPermissions("采购订单入库")
 	@Override
 	public void doInStore(Long uuid, Long empUuid, Long storeUuid) {
 		// 更新商品明细
@@ -118,6 +121,7 @@ public class OrderdetailBiz extends BaseBiz<Orderdetail> implements IOrderdetail
 	 * @param uuid
 	 * @param storeuuid
 	 */
+	@RequiresPermissions("销售订单出库")
 	public void doOutStore(Long empuuid, Long uuid, Long storeuuid) {
 		// 获取订单明细
 		Orderdetail orderdetail = orderdetailDao.get(uuid);

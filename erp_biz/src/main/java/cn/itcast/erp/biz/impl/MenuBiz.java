@@ -1,7 +1,11 @@
 package cn.itcast.erp.biz.impl;
 import java.util.ArrayList;
 import cn.itcast.erp.entity.Menu;
+import redis.clients.jedis.Jedis;
+
 import java.util.List;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.itcast.erp.biz.IMenuBiz;
 import cn.itcast.erp.dao.IMenuDao;
@@ -14,7 +18,13 @@ import cn.itcast.erp.entity.Menu;
 public class MenuBiz extends BaseBiz<Menu> implements IMenuBiz {
 
 	private IMenuDao menuDao;
+	private Jedis jedis;
 	
+	
+	public void setJedis(Jedis jedis) {
+		this.jedis = jedis;
+	}
+
 	public void setMenuDao(IMenuDao menuDao) {
 		this.menuDao = menuDao;
 		setBaseDao(menuDao);
@@ -22,7 +32,17 @@ public class MenuBiz extends BaseBiz<Menu> implements IMenuBiz {
 
 	@Override
 	public List<Menu> getMenusByEmpuuid(Long uuid) {
-		return menuDao.getMenusByEmpuuid(uuid);
+		String menuListJson = jedis.get("menuList_"+uuid);
+		List<Menu> menuList = null;
+		if (menuListJson == null) {
+			menuList = menuDao.getMenusByEmpuuid(uuid);
+			jedis.set("menuList_"+uuid, JSON.toJSONString(menuList));
+			System.out.println("database");
+		} else {
+			menuList = JSON.parseArray(menuListJson, Menu.class);
+			System.out.println("redis");
+		}
+		return menuList;
 	}
 	
 	/**

@@ -32,11 +32,11 @@ public class ErpRealm extends AuthorizingRealm {
 
 	@Override 
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		System.out.println("授权");
 		// 得到当前登陆用户
 		Emp emp = (Emp) principals.getPrimaryPrincipal();
 		// 获取用户对应的权限
 		List<Menu> menus = menuBiz.getMenusByEmpuuid(emp.getUuid());
-		
 		SimpleAuthorizationInfo sai = new SimpleAuthorizationInfo();
 		for (Menu menu : menus) {
 			sai.addStringPermission(menu.getMenuname());

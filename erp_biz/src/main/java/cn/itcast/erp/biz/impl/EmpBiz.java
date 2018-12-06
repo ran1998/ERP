@@ -12,6 +12,7 @@ import cn.itcast.erp.entity.Emp;
 import cn.itcast.erp.entity.Role;
 import cn.itcast.erp.entity.Tree;
 import cn.itcast.erp.exception.ERPException;
+import redis.clients.jedis.Jedis;
 /**
  * 员工业务逻辑类
  * @author Administrator
@@ -21,7 +22,14 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 
 	private int hashIterations = 2;
 	private IEmpDao empDao;
+	private Jedis jedis;
 	
+	
+	
+	public void setJedis(Jedis jedis) {
+		this.jedis = jedis;
+	}
+
 	public void setEmpDao(IEmpDao empDao) {
 		this.empDao = empDao;
 		setBaseDao(empDao);
@@ -105,6 +113,12 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		for (String s : split) {
 			role = roleDao.get(Long.valueOf(s));
 			emp.getRoles().add(role);
+		}
+		// 修改后清除redis缓存
+		try {			
+			jedis.del("menuList_"+uuid);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
